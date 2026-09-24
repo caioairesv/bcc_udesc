@@ -1,49 +1,43 @@
 #include <stdio.h>
 
-/* ==========================================================================
-   FUNÇÕES DOS EXERCÍCIOS
-   ========================================================================== */
+//FUNCOES DOS EXERCICIOS
 
-// Exercício 1
+// Exercicio 1
 int tipo_triangulo(float x, float y, float z) {
-    // Pela regra matemática, um lado não pode ser maior ou igual à soma dos outros dois 
-    // Se for, já devolvo 0 e mato a questão logo aqui.
+    // Verifica condicao de existencia do triangulo
     if (x >= y + z || y >= x + z || z >= x + y) {
         return 0; 
     }
-    // Se passou do if acima, é porque forma triângulo. Agora é só ver os lados iguais.
+    
     if (x == y && y == z) {
-        return 1; // Equilátero: tudo igual
+        return 1; // Equilatero
     }
     if (x == y || x == z || y == z) {
-        return 2; // Isósceles: basta 2 iguais
+        return 2; // Isosceles
     }
-    return 3; // Escaleno: se não caiu em nenhum dos de cima, é tudo diferente
+    return 3; // Escaleno
 }
 
-// Exercício 2
+// Exercicio 2
 int maior_valor(int a, int b, int c) {
-    // Chuto que o primeiro (a) é o maior logo de início.
     int maior = a;
     
-    // Se o b ou o c forem maiores, eu atualizo a variável. 
-    // Usar só o '>' resolve o problema de termos números repetidos sem dar erro
+    // Atualiza apenas se encontrar um valor estritamente maior
     if (b > maior) maior = b;
     if (c > maior) maior = c;
     
     return maior;
 }
 
-// Exercício 3
+// Exercicio 3
 int is_digit(char c) {
-    // A tabela ASCII salva vidas aqui. Se o char estiver no intervalo entre '0' e '9', é dígito.
+    // Verifica pelo intervalo na tabela ASCII
     return (c >= '0' && c <= '9');
 }
 
-// Exercício 4
+// Exercicio 4
 int soma_impares_entre(int x, int y) {
-    // O x pode vir maior que o y (como no exemplo do x=6 e y=-5 da ficha)
-    // Para não estragar o ciclo for, eu inverto os dois usando uma variável temporária se for preciso.
+    // Garante que x e o menor valor para iterar corretamente
     if (x > y) {
         int temp = x;
         x = y;
@@ -51,9 +45,8 @@ int soma_impares_entre(int x, int y) {
     }
     
     int soma = 0;
-    // O ciclo começa no x+1 e vai até y-1 porque não é para incluir os próprios limites
+    // Itera apenas entre os limites (exclusivo)
     for (int i = x + 1; i < y; i++) {
-        // Se o resto da divisão por 2 for diferente de zero, é ímpar, então vai para a soma.
         if (i % 2 != 0) {
             soma += i;
         }
@@ -61,24 +54,22 @@ int soma_impares_entre(int x, int y) {
     return soma;
 }
 
-// Exercício 5
+// Exercicio 5
 int is_prime(int num) {
-    if (num <= 1) return 0; // 0 e 1 não são primos, descarto logo.
+    if (num <= 1) return 0;
     
-    // Função clássica para ver se é primo. O truque de ir só até à raiz quadrada (i * i <= num) 
-    // deixa o código bem mais rápido.
+    // Otimizacao: verifica apenas ate a raiz quadrada
     for (int i = 2; i * i <= num; i++) {
         if (num % i == 0) return 0;
     }
     return 1;
 }
 
-// Exercício 6
+// Exercicio 6
 int fibo(int n) {
-    // A sequência começa com 1 e 1
     if (n == 1 || n == 2) return 1; 
     
-    // Fibonacci iterativo. Começo com os dois primeiros a valer 1, e vou somando os anteriores.
+    // Iteracao para encontrar o n-esimo termo
     int a = 1, b = 1, c;
     for (int i = 3; i <= n; i++) {
         c = a + b;
@@ -88,41 +79,38 @@ int fibo(int n) {
     return b;
 }
 
-// Exercício 7
+// Exercicio 7
 int soma_especial(int n, int k, int x) {
     int soma = 0, count = 0;
     int atual = x;
     
-    // Tenho que somar 'n' múltiplos de 'k' a começar do 'x' 
-    // O ciclo while ajuda-me a contar quantos múltiplos já encontrei, até chegar ao 'n'.
+    // Busca 'n' multiplos de 'k' a partir de 'x'
     while (count < n) {
         if (atual % k == 0) {
             soma += atual;
-            count++; // Só incremento o contador se achar um múltiplo.
+            count++;
         }
-        atual++; // Independentemente de ser múltiplo ou não, ando para o próximo número.
+        atual++; 
     }
     return soma;
 }
 
-// Exercício 8
+// Exercicio 8
 int soma_n_iterativa(int n) {
-    // A versão iterativa é só um ciclo for normal e acumulativo.
     int soma = 0;
     for (int i = 1; i <= n; i++) soma += i;
     return soma;
 }
 
 int soma_n_recursiva(int n) {
-    // Na recursiva, a condição de paragem é quando o n chega a 1.
-    if (n == 1) return 1;
+    if (n == 1) return 1; // Condicao de paragem
     return n + soma_n_recursiva(n - 1);
 }
 
-// Exercício 9
+// Exercicio 9
 float harm_iterativa(int n) {
-    // Tem de se usar float/double aqui, senão a divisão de 1/i vai dar sempre zero em variáveis inteiras
     float soma = 0.0;
+    // Uso de 1.0 forca a divisao de ponto flutuante
     for (int i = 1; i <= n; i++) soma += 1.0 / i;
     return soma;
 }
@@ -132,8 +120,7 @@ float harm_recursiva(int n) {
     return (1.0 / n) + harm_recursiva(n - 1);
 }
 
-// Exercício 10
-// Fiz logo uma função auxiliar para o fatorial primeiro, senão a conta da constante 'e' ia ficar muito confusa
+// Exercicio 10
 float fatorial(int n) {
     float f = 1.0;
     for (int i = 2; i <= n; i++) f *= i;
@@ -142,20 +129,17 @@ float fatorial(int n) {
 
 float e_iterativa(int n) {
     float soma = 0.0;
-    // O somatório começa com 1/0!, então o ciclo arranca em 0
     for (int i = 0; i <= n; i++) soma += 1.0 / fatorial(i);
     return soma;
 }
 
 float e_recursiva(int n) {
-    if (n == 0) return 1.0; // 1 / 0! dá 1
+    if (n == 0) return 1.0;
     return (1.0 / fatorial(n)) + e_recursiva(n - 1);
 }
 
 
-/* ==========================================================================
-   INTERFACES DOS EXERCÍCIOS (Para testar no ecrã)
-   ========================================================================== */
+//INTERFACES DOS EXERCICIOS
 
 void exercicio_1() {
     float x, y, z;
@@ -165,7 +149,6 @@ void exercicio_1() {
     int tipo = tipo_triangulo(x, y, z);
     printf("Codigo que a funcao devolveu: %d\n", tipo);
     
-    // Isto foi só para mostrar o que significa cada código retornado
     if (tipo == 0) printf("Os lados nao formam um triangulo.\n");
     else if (tipo == 1) printf("Triangulo equilatero.\n");
     else if (tipo == 2) printf("Triangulo isosceles.\n");
@@ -185,7 +168,7 @@ void exercicio_3() {
     scanf(" %c", &c);
     
     if (is_digit(c)) {
-        // Truque para converter o char para inteiro Subtrair o '0' converte o ASCII para o número real.
+        // Converte char para inteiro usando a tabela ASCII
         int valor = c - '0';
         printf("Isto e um digito. O valor inteiro guardado na variavel e: %d\n", valor);
     } else {
@@ -205,7 +188,7 @@ void exercicio_5() {
     printf("Digita os valores de k e n: ");
     scanf("%d %d", &k, &n);
     
-    int count = 0, atual = k + 1; // O atual começa um número acima de 'k'
+    int count = 0, atual = k + 1; 
     
     printf("Os %d primeiros primos acima de %d sao:\n", n, k);
     while (count < n) {
@@ -259,10 +242,6 @@ void exercicio_10() {
     printf("Constante e (Iterativa): %f\n", e_iterativa(n));
     printf("Constante e (Recursiva): %f\n", e_recursiva(n));
 }
-
-/* ==========================================================================
-   PROGRAMA PRINCIPAL (MENU)
-   ========================================================================== */
 
 int main() {
     int opcao;
